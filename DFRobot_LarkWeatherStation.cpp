@@ -320,11 +320,11 @@ int DFRobot_LarkWeatherStation_I2C::recvData(void *data, int len){
     len = remain > I2C_ACHE_MAX_LEN ? I2C_ACHE_MAX_LEN : remain;
     remain -= len;
 #if defined(ESP32)
-    if(remain) _pWire->requestFrom(_addr, len, 1);
+    if(remain) _pWire->requestFrom(_addr, (size_t)len, true);
 #else
     if(remain) _pWire->requestFrom(_addr, len, 0);
 #endif
-    else _pWire->requestFrom(_addr, len, 1);
+    else _pWire->requestFrom(_addr, (size_t)len, true);
     for(int i = 0; i < len; i++){
       pBuf[i] = _pWire->read();
       yield();
